@@ -1,8 +1,11 @@
 /* eslint-disable react/prop-types */
 import { Carousel, Col, Modal, Row, Typography } from 'antd';
+import { useState } from 'react';
 import Maps from './Maps';
 
 const PropertyDetailsModal = ({ property, open, handleClose }) => {
+
+  const [showItem, setShowItem] = useState("details")
 
   // Function to open the map in a new tab
   const openMap = (latitude, longitude) => {
@@ -32,7 +35,11 @@ const PropertyDetailsModal = ({ property, open, handleClose }) => {
 
         {/* Property Details (Right Column) */}
         <Col xs={24} md={12}>
-          <Typography.Title level={4}>{property?.title}</Typography.Title>
+         <div className='space-x-3 pb-5'>
+          <button onClick={()=>setShowItem('details')} className={`text-lg px-5 py-1 ${showItem==='details' ? "bg-[#edaa9d] text-white" : "border-2 border-[#edaa9d] text-[#edaa9d]"} rounded`}>View Detail </button>
+          <button onClick={()=>setShowItem('map')} className={`text-lg px-5 py-1 ${showItem==='map' ? "bg-[#edaa9d] text-white" : "border-2 border-[#edaa9d] text-[#edaa9d]"}  rounded`}>View Maps </button>
+         </div>
+         { showItem==="details" && <><Typography.Title level={4}>{property?.title}</Typography.Title>
           <Typography.Title level={5} style={{ color: '#1890ff' }}>
             {property?.pricing?.label}
           </Typography.Title>
@@ -52,12 +59,12 @@ const PropertyDetailsModal = ({ property, open, handleClose }) => {
           {/* Agent Info */}
           <Typography.Paragraph><strong>Agent: </strong>{property?.agent?.branchName}</Typography.Paragraph>
           <img src={property?.agent?.logoUri} alt="Agent Logo" style={{ width: '50px', height: 'auto' }} />
-          <Typography.Paragraph>{property?.agent?.phone}</Typography.Paragraph>
+          <Typography.Paragraph>{property?.agent?.phone}</Typography.Paragraph></> }
 
           {/* View on Map Button */}
 
           {/* <LoadScript googleMapsApiKey="AIazaSyBwapnpvig2OudZciAgqtdize9IowNV4Lw"> */}
-            <Maps latitude={property?.location?.coordinates?.latitude} longitude={property?.location?.coordinates?.longitude} />
+            {showItem==="map" && <Maps latitude={property?.location?.coordinates?.latitude} longitude={property?.location?.coordinates?.longitude} />}
           {/* </LoadScript>a */}
           {/* <Button
           className='bg-[#edaa9d] text-white'

@@ -30,8 +30,7 @@ function HomePage() {
   const [chats, setChats] = useState([]);
   const [selectedMessage, setSelectedMessage] = useState("");
 
-  const { data: chatHistory,  } =
-    useChatHistoryQuery();
+  const { data: chatHistory } = useChatHistoryQuery();
   const { data: chatsData,  } =
     usePreviousChatQuery(conversationId);
   const [sendMessage, { isLoading: resLoading }] = useSendMessageMutation();
